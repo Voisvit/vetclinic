@@ -1,0 +1,31 @@
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        {% if show_patient %}<th>Пацієнт</th>{% endif %}
+        <th>Вакцина</th>
+        <th>Дата</th>
+        <th>Наступна</th>
+        <th>Статус</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vaccination in vaccinations %}
+        <tr>
+          {% if show_patient %}<td><a href="{{ vaccination.patient.get_absolute_url }}">{{ vaccination.patient.name }}</a></td>{% endif %}
+          <td>{{ vaccination.vaccine_name }}</td>
+          <td>{{ vaccination.vaccination_date|date:'d.m.Y' }}</td>
+          <td>{{ vaccination.next_vaccination_date|date:'d.m.Y' }}</td>
+          <td><span class="status status-{{ vaccination.status }}">{{ vaccination.status_label }}</span></td>
+          <td class="text-end table-actions">
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'vaccination_update' vaccination.pk %}">Редагувати</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'vaccination_delete' vaccination.pk %}">Видалити</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="{% if show_patient %}6{% else %}5{% endif %}" class="empty">Вакцинацій ще немає.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

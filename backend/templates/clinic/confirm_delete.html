@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Видалення - VetClinic{% endblock %}
+
+{% block content %}
+<div class="panel delete-panel">
+  <h1>Видалити запис?</h1>
+  <p>Цю дію не можна скасувати.</p>
+  <form method="post" class="form-actions">
+    {% csrf_token %}
+    <button class="btn btn-danger btn-lg" type="submit">Так, видалити</button>
+    <a class="btn btn-outline-secondary btn-lg" href="javascript:history.back()">Скасувати</a>
+  </form>
+</div>
+{% endblock %}

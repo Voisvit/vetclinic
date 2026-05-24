@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Пацієнт - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{% if object %}Редагувати пацієнта{% else %}Новий пацієнт{% endif %}</h1>
+    <p>Заповніть тільки потрібні поля.</p>
+  </div>
+</div>
+
+<form method="post" class="panel form-panel">
+  {% csrf_token %}
+  <h2>Дані тварини</h2>
+  <div class="row g-3">
+    {% for field in form %}
+      {% if field.name == 'owner_full_name' %}
+        </div><h2 class="mt-4">Дані власника</h2><div class="row g-3">
+      {% endif %}
+      <div class="col-md-6{% if field.name in 'features comment owner_comment' %} col-12{% endif %}">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary btn-lg" type="submit">Зберегти</button>
+    <a class="btn btn-outline-secondary btn-lg" href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'patient_list' %}{% endif %}">Скасувати</a>
+  </div>
+</form>
+{% endblock %}

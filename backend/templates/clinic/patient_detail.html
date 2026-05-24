@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ patient.name }} - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{{ patient.name }}</h1>
+    <p>{{ patient.species }}{% if patient.breed %} · {{ patient.breed }}{% endif %}</p>
+  </div>
+  <div class="actions">
+    <a class="btn btn-outline-primary btn-lg" href="{% url 'patient_update' patient.pk %}">Редагувати</a>
+    <a class="btn btn-outline-danger btn-lg" href="{% url 'patient_delete' patient.pk %}">Видалити</a>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <section class="panel">
+      <h2>Дані тварини</h2>
+      <dl class="info-grid">
+        <dt>Стать</dt><dd>{{ patient.get_sex_display }}</dd>
+        <dt>Дата народження</dt><dd>{{ patient.birth_date|date:'d.m.Y'|default:'-' }}</dd>
+        <dt>Вік</dt><dd>{{ patient.age_text|default:'-' }}</dd>
+        <dt>Особливості</dt><dd>{{ patient.features|default:'-'|linebreaksbr }}</dd>
+        <dt>Коментар</dt><dd>{{ patient.comment|default:'-'|linebreaksbr }}</dd>
+      </dl>
+    </section>
+  </div>
+  <div class="col-lg-6">
+    <section class="panel">
+      <h2>Власник</h2>
+      <dl class="info-grid">
+        <dt>ПІБ</dt><dd>{{ patient.owner_full_name }}</dd>
+        <dt>Телефон</dt><dd><a href="tel:{{ patient.owner_phone }}">{{ patient.owner_phone }}</a></dd>
+        <dt>Коментар</dt><dd>{{ patient.owner_comment|default:'-'|linebreaksbr }}</dd>
+      </dl>
+    </section>
+  </div>
+</div>
+
+<section class="panel mt-4">
+  <div class="section-head">
+    <h2>Історія прийомів</h2>
+    <a class="btn btn-primary" href="{% url 'visit_create' patient.pk %}">+ Прийом</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead><tr><th>Дата</th><th>Опис</th><th>Лікування</th><th></th></tr></thead>
+      <tbody>
+        {% for visit in visits %}
+          <tr>
+            <td>{{ visit.date|date:'d.m.Y' }}</td>
+            <td>{{ visit.short_description }}</td>
+            <td>{{ visit.treatment|default:'-'|linebreaksbr }}</td>
+            <td class="text-end table-actions">
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'visit_update' visit.pk %}">Редагувати</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'visit_delete' visit.pk %}">Видалити</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="empty">Прийомів ще немає.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel mt-4">
+  <div class="section-head">
+    <h2>Вакцинації</h2>
+    <a class="btn btn-primary" href="{% url 'vaccination_create' patient.pk %}">+ Вакцинація</a>
+  </div>
+  {% include 'clinic/partials/vaccination_table.html' with vaccinations=vaccinations show_patient=False %}
+</section>
+{% endblock %}

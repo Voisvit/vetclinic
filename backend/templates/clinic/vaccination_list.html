@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Вакцинації - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Вакцинації</h1>
+    <p>Зелений - актуальна, жовтий - скоро, червоний - прострочена.</p>
+  </div>
+</div>
+
+<section class="panel">
+  {% include 'clinic/partials/vaccination_table.html' with vaccinations=vaccinations show_patient=True %}
+</section>
+{% endblock %}

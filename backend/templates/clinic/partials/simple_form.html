@@ -1,0 +1,16 @@
+<form method="post" class="panel form-panel">
+  {% csrf_token %}
+  <div class="row g-3">
+    {% for field in form %}
+      <div class="col-md-6{% if field.field.widget.input_type == 'textarea' %} col-12{% endif %}">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary btn-lg" type="submit">Зберегти</button>
+    <a class="btn btn-outline-secondary btn-lg" href="{{ cancel_url }}">Скасувати</a>
+  </div>
+</form>

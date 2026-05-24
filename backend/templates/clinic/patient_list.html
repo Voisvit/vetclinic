@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Пацієнти - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Пацієнти</h1>
+    <p>Пошук за кличкою, телефоном або власником.</p>
+  </div>
+  <a class="btn btn-primary btn-lg" href="{% url 'patient_create' %}">+ Додати</a>
+</div>
+
+<form class="mb-3" method="get">
+  <div class="input-group input-group-lg">
+    <input class="form-control" type="search" name="q" value="{{ request.GET.q }}" placeholder="Пошук">
+    <button class="btn btn-outline-primary" type="submit">Знайти</button>
+  </div>
+</form>
+
+<div class="table-responsive panel p-0">
+  <table class="table table-hover align-middle mb-0">
+    <thead>
+      <tr>
+        <th>Кличка</th>
+        <th>Вид</th>
+        <th>Власник</th>
+        <th>Телефон</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for patient in patients %}
+        <tr>
+          <td><a href="{{ patient.get_absolute_url }}" class="fw-semibold">{{ patient.name }}</a></td>
+          <td>{{ patient.species }}</td>
+          <td>{{ patient.owner_full_name }}</td>
+          <td>{{ patient.owner_phone }}</td>
+          <td class="text-end"><a class="btn btn-outline-primary" href="{{ patient.get_absolute_url }}">Картка</a></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5" class="empty">Пацієнтів ще немає.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Прийом - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{% if object %}Редагувати прийом{% else %}Новий прийом{% endif %}</h1>
+    <p>{{ patient.name }}</p>
+  </div>
+</div>
+
+{% include 'clinic/partials/simple_form.html' with cancel_url=patient.get_absolute_url %}
+{% endblock %}

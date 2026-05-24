@@ -1,0 +1,19 @@
+<div class="modal fade" id="{{ action }}Modal{{ item.pk }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" method="post" action="{% url 'inventory_adjust' item.pk action %}">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h2 class="modal-title h5">{{ title }}: {{ item.name }}</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрити"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label" for="{{ action }}Quantity{{ item.pk }}">Кількість</label>
+        <input id="{{ action }}Quantity{{ item.pk }}" class="form-control form-control-lg" type="number" name="quantity" min="1" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Скасувати</button>
+        <button type="submit" class="btn {{ button_class }}">{{ button }}</button>
+      </div>
+    </form>
+  </div>
+</div>

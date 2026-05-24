@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Товар - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{% if object %}Редагувати товар{% else %}Новий товар{% endif %}</h1>
+    <p>Назва та поточний залишок.</p>
+  </div>
+</div>
+
+{% include 'clinic/partials/simple_form.html' with cancel_url='/inventory/' %}
+{% endblock %}

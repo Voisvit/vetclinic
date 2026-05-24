@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Головна - VetClinic{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Головна</h1>
+    <p>Швидкий огляд пацієнтів, вакцинацій і складу.</p>
+  </div>
+  <a class="btn btn-primary btn-lg" href="{% url 'patient_create' %}">+ Новий пацієнт</a>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="metric">
+      <span>Пацієнтів</span>
+      <strong>{{ patients_count }}</strong>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="metric">
+      <span>Товарів на складі</span>
+      <strong>{{ inventory_count }}</strong>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <section class="panel danger-panel">
+      <h2>Прострочені вакцинації</h2>
+      {% include 'clinic/partials/vaccination_alert_list.html' with vaccinations=overdue_vaccinations empty_text='Прострочених вакцинацій немає.' %}
+    </section>
+  </div>
+  <div class="col-lg-6">
+    <section class="panel warning-panel">
+      <h2>Скоро потрібно повторити</h2>
+      {% include 'clinic/partials/vaccination_alert_list.html' with vaccinations=soon_vaccinations empty_text='Найближчих повторів немає.' %}
+    </section>
+  </div>
+</div>
+{% endblock %}
