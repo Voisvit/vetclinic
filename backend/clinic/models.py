@@ -6,6 +6,17 @@ from django.urls import reverse
 from django.utils import timezone
 
 
+def capitalize_first(value):
+    value = (value or '').strip()
+    if not value:
+        return value
+    return value[0].upper() + value[1:]
+
+
+def capitalize_words(value):
+    return ' '.join(capitalize_first(part) for part in (value or '').split())
+
+
 class Patient(models.Model):
     class Sex(models.TextChoices):
         UNKNOWN = 'unknown', 'Не вказано'
@@ -32,10 +43,23 @@ class Patient(models.Model):
         verbose_name_plural = 'Пацієнти'
 
     def __str__(self):
-        return f'{self.name} ({self.species})'
+        return f'{self.display_name} ({self.species})'
 
     def get_absolute_url(self):
         return reverse('patient_detail', kwargs={'pk': self.pk})
+
+    @property
+    def display_name(self):
+        return capitalize_first(self.name)
+
+    @property
+    def display_owner_full_name(self):
+        return capitalize_words(self.owner_full_name)
+
+    def save(self, *args, **kwargs):
+        self.name = capitalize_first(self.name)
+        self.owner_full_name = capitalize_words(self.owner_full_name)
+        super().save(*args, **kwargs)
 
 
 class Visit(models.Model):
@@ -55,7 +79,7 @@ class Visit(models.Model):
         verbose_name_plural = 'Прийоми'
 
     def __str__(self):
-        return f'{self.patient.name} - {self.date}'
+        return f'{self.patient.display_name} - {self.date}'
 
 
 class Vaccination(models.Model):
@@ -75,7 +99,7 @@ class Vaccination(models.Model):
         verbose_name_plural = 'Вакцинації'
 
     def __str__(self):
-        return f'{self.patient.name} - {self.vaccine_name}'
+        return f'{self.patient.display_name} - {self.vaccine_name}'
 
     @property
     def status(self):

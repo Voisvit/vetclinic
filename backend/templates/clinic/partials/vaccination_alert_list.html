@@ -3,7 +3,7 @@
     {% for vaccination in vaccinations %}
       <a class="list-group-item list-group-item-action" href="{{ vaccination.patient.get_absolute_url }}">
         <div class="d-flex justify-content-between gap-3">
-          <strong>{{ vaccination.patient.name }}</strong>
+          <strong>{{ vaccination.patient.display_name }}</strong>
           <span>{{ vaccination.next_vaccination_date|date:'d.m.Y' }}</span>
         </div>
         <div class="small text-muted">{{ vaccination.vaccine_name }} · {{ vaccination.patient.owner_phone }}</div>

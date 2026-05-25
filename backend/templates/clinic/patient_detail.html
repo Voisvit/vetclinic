@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ patient.name }} - VetClinic{% endblock %}
+{% block title %}{{ patient.display_name }} - VetClinic{% endblock %}
 
 {% block content %}
 <div class="page-head">
   <div>
-    <h1>{{ patient.name }}</h1>
+    <h1>{{ patient.display_name }}</h1>
     <p>{{ patient.species }}{% if patient.breed %} · {{ patient.breed }}{% endif %}</p>
   </div>
   <div class="actions">
@@ -31,7 +31,7 @@
     <section class="panel">
       <h2>Власник</h2>
       <dl class="info-grid">
-        <dt>ПІБ</dt><dd>{{ patient.owner_full_name }}</dd>
+        <dt>ПІБ</dt><dd>{{ patient.display_owner_full_name }}</dd>
         <dt>Телефон</dt><dd><a href="tel:{{ patient.owner_phone }}">{{ patient.owner_phone }}</a></dd>
         <dt>Коментар</dt><dd>{{ patient.owner_comment|default:'-'|linebreaksbr }}</dd>
       </dl>

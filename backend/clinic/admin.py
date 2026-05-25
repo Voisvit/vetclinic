@@ -15,10 +15,18 @@ class VaccinationInline(admin.TabularInline):
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'species', 'owner_full_name', 'owner_phone')
+    list_display = ('display_name', 'species', 'display_owner_full_name', 'owner_phone')
     search_fields = ('name', 'species', 'breed', 'owner_full_name', 'owner_phone')
     list_filter = ('species', 'sex')
     inlines = [VisitInline, VaccinationInline]
+
+    @admin.display(description='Кличка', ordering='name')
+    def display_name(self, obj):
+        return obj.display_name
+
+    @admin.display(description='ПІБ власника', ordering='owner_full_name')
+    def display_owner_full_name(self, obj):
+        return obj.display_owner_full_name
 
 
 @admin.register(Visit)

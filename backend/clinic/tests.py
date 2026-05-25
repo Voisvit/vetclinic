@@ -56,6 +56,28 @@ class ClinicMvpTests(TestCase):
         item.refresh_from_db()
         self.assertEqual(item.stock, 2)
 
+    def test_patient_name_and_owner_are_capitalized_on_save(self):
+        patient = Patient.objects.create(
+            name='мурка',
+            species='Кіт',
+            owner_full_name='іван петренко',
+            owner_phone='+380501112244',
+        )
+
+        self.assertEqual(patient.name, 'Мурка')
+        self.assertEqual(patient.owner_full_name, 'Іван Петренко')
+
+    def test_patient_display_formats_existing_lowercase_data(self):
+        patient = Patient(
+            name='рекс',
+            species='Собака',
+            owner_full_name='олена коваленко',
+            owner_phone='+380501112255',
+        )
+
+        self.assertEqual(patient.display_name, 'Рекс')
+        self.assertEqual(patient.display_owner_full_name, 'Олена Коваленко')
+
     def test_main_pages_open(self):
         self.client.force_login(self.user)
         paths = [

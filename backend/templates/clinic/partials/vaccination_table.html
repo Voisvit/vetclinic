@@ -13,7 +13,7 @@
     <tbody>
       {% for vaccination in vaccinations %}
         <tr>
-          {% if show_patient %}<td><a href="{{ vaccination.patient.get_absolute_url }}">{{ vaccination.patient.name }}</a></td>{% endif %}
+          {% if show_patient %}<td><a href="{{ vaccination.patient.get_absolute_url }}">{{ vaccination.patient.display_name }}</a></td>{% endif %}
           <td>{{ vaccination.vaccine_name }}</td>
           <td>{{ vaccination.vaccination_date|date:'d.m.Y' }}</td>
           <td>{{ vaccination.next_vaccination_date|date:'d.m.Y' }}</td>

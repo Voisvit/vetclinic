@@ -32,9 +32,9 @@
     <tbody>
       {% for patient in patients %}
         <tr>
-          <td><a href="{{ patient.get_absolute_url }}" class="fw-semibold">{{ patient.name }}</a></td>
+          <td><a href="{{ patient.get_absolute_url }}" class="fw-semibold">{{ patient.display_name }}</a></td>
           <td>{{ patient.species }}</td>
-          <td>{{ patient.owner_full_name }}</td>
+          <td>{{ patient.display_owner_full_name }}</td>
           <td>{{ patient.owner_phone }}</td>
           <td class="text-end"><a class="btn btn-outline-primary" href="{{ patient.get_absolute_url }}">Картка</a></td>
         </tr>
